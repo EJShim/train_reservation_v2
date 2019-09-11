@@ -1,11 +1,18 @@
 {
     "manifest_version": 2,
-    "name": "My Cool Extension",
+    "name": "korail automator",
     "version": "0.1",
+    "permissions": [
+        "activeTab",
+        "browsingData",
+        "contextMenus",
+        "storage",
+        "alarms"
+      ],
     "content_scripts": [
         {
             "matches": [
-            "http://www.letskorail.com/*"
+            "http://www.letskorail.com/ebizprd/EbizPrdTicketPr21111_i1.do"
             ],
             "js": ["jquery-3.4.1.min.js","content.js"]
         }
@@ -15,5 +22,5 @@
     },
     "background": {
         "scripts": ["background.js"]
-      }
+    }    
   }
