@@ -24,8 +24,7 @@ function checkDOMChange()
       const popupButton = getElementByXpath("//a[@class='btn_blue_ang']", iframe.contentWindow.document);
 
       if(popupButton !== null){
-        popupButton.click();
-        return;
+        popupButton.click();        
       }
     }
     setTimeout( checkDOMChange, 100 );
@@ -63,22 +62,20 @@ parent.appendChild(alternativeButton);
 
 function Start(){
 
-  reserveButtons = getElementsByXPath("//td/a/img[@alt='예약하기']")  
-  console.log(reserveButtons.length);
+  reserveButtons = getElementsByXPath("//td/a/img[@alt='예약하기']")    
   
   if(reserveButtons.length === 0){
     //refresh
     getElementByXpath('//*[@id="center"]/div[3]/p[1]/a').click();
   }else{
-    //Get it hacked!
-    console.log("there are available tickets");
-    
+    //Get it hacked!    
     chrome.runtime.sendMessage({"message": "toggle_status_action"});
 
 
 
     checkDOMChange();
     reserveButtons[0].parentNode.click();
+    chrome.runtime.sendMessage({"message": "notification_action"});
   }
   
 }
@@ -95,7 +92,6 @@ alternativeButton.firstChild.addEventListener("click", e=>{
 // content.js
 chrome.runtime.onMessage.addListener((request, sender, sendResponse)=>{
       if( request.message === "clicked_browser_action" ) {        
-        console.log(document.onmousedown);
       }else if(request.message === "start_action"){
         Start();
       }

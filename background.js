@@ -14,6 +14,17 @@ chrome.runtime.onMessage.addListener( (request, sender, sendResponse) => {
       console.log(status);
     }else if (request.message === "toggle_status_action"){
       status = !status;      
+    }else if( request.message === "notification_action"){
+      
+      chrome.notifications.create(
+        'name-for-notification',{   
+        type: 'basic', 
+        iconUrl: 'main-icon.png', 
+        title: "표끊음", 
+        message: "표끊었다 결제해라!" 
+        },e=>{
+          console.log("notification");
+        });
     }
 });
 
