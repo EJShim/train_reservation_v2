@@ -7,4 +7,17 @@ chrome.browserAction.onClicked.addListener((tab)=> {
       var activeTab = tabs[0];
       chrome.tabs.sendMessage(activeTab.id, {"message": "clicked_browser_action"});
     });
-  });
+});
+
+
+//runtime message
+// This block is new!
+chrome.runtime.onMessage.addListener( (request, sender, sendResponse) => {
+    if( request.message === "refresh" ) {
+      
+      chrome.tabs.executeScript(sender.tab.id,{file:"inqSchedule.js"});
+
+      
+      
+    }
+});

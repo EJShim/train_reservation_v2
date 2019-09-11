@@ -3,11 +3,14 @@
     "name": "korail automator",
     "version": "0.1",
     "permissions": [
+        "tabs",
         "activeTab",
         "browsingData",
         "contextMenus",
         "storage",
-        "alarms"
+        "alarms",
+        "*://*/*"
+        
       ],
     "content_scripts": [
         {
@@ -22,5 +25,9 @@
     },
     "background": {
         "scripts": ["background.js"]
-    }    
+    },
+    "web_accessible_resources": [
+        "favicon.ico",
+        "btn_inq_tick_hack.png"
+    ]
   }
