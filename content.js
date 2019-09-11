@@ -1,5 +1,34 @@
-function getElementByXpath(path) {
-  return document.evaluate(path, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+function getElementByXpath(path, parent = document) {
+  return parent.evaluate(path, parent, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+}
+
+function getElementsByXPath(xpath, parent = document)
+{
+    let results = [];
+    let query = parent.evaluate(xpath, parent,
+        null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
+    for (let i = 0, length = query.snapshotLength; i < length; ++i) {
+        results.push(query.snapshotItem(i));
+    }
+    return results;
+}
+
+
+
+function checkDOMChange()
+{
+
+    const iframes = document.getElementsByTagName("iframe");
+    if(iframes.length > 0){
+      const iframe = iframes[0]
+      const popupButton = getElementByXpath("//a[@class='btn_blue_ang']", iframe.contentWindow.document);
+
+      if(popupButton !== null){
+        popupButton.click();
+        return;
+      }
+    }
+    setTimeout( checkDOMChange, 100 );
 }
 
 
@@ -26,19 +55,33 @@ alternativeButton.firstChild.removeAttribute('href');
 alternativeButton.firstChild.firstChild.setAttribute('src',chrome.extension.getURL('btn_inq_tick_hack.png') )
 alternativeButton.firstChild.firstChild.setAttribute('alt', 'Hack');
 alternativeButton.style.position='fixed';
+alternativeButton.style.zIndex = '10000';
 parent.appendChild(alternativeButton);
 
 
 
-//계속해서 refresh  함.. flag 를 만들어줘야할
-//getElementByXpath('//*[@id="center"]/div[3]/p[1]/a').click();
-
-// chrome.runtime.sendMessage({"message": "refresh"});
 
 function Start(){
-  getElementByXpath('//*[@id="center"]/div[3]/p[1]/a').click();
-}
 
+  reserveButtons = getElementsByXPath("//td/a/img[@alt='예약하기']")  
+  console.log(reserveButtons.length);
+  
+  if(reserveButtons.length === 0){
+    //refresh
+    getElementByXpath('//*[@id="center"]/div[3]/p[1]/a').click();
+  }else{
+    //Get it hacked!
+    console.log("there are available tickets");
+    
+    chrome.runtime.sendMessage({"message": "toggle_status_action"});
+
+
+
+    checkDOMChange();
+    reserveButtons[0].parentNode.click();
+  }
+  
+}
 
 
 alternativeButton.firstChild.addEventListener("click", e=>{

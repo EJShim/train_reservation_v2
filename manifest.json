@@ -17,8 +17,9 @@
             "matches": [
             "http://www.letskorail.com/ebizprd/EbizPrdTicketPr21111_i1.do"
             ],
-            "js": ["jquery-3.4.1.min.js","content.js"]
-        }
+            "js": ["jquery-3.4.1.min.js","content.js"],
+            "all_frames": true
+        }    
     ],
     "browser_action": {
         "default_icon": "main-icon.png"
