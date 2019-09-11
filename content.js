@@ -5,8 +5,7 @@ function getElementByXpath(path, parent = document) {
 function getElementsByXPath(xpath, parent = document)
 {
     let results = [];
-    let query = parent.evaluate(xpath, parent,
-        null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
+    let query = parent.evaluate(xpath, parent, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
     for (let i = 0, length = query.snapshotLength; i < length; ++i) {
         results.push(query.snapshotItem(i));
     }
