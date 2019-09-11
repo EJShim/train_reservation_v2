@@ -1,7 +1,3 @@
-// content.js
-//var firstHref = $("a[href^='http']").eq(0).attr("href");
-
-
 function getElementByXpath(path) {
   return document.evaluate(path, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
 }
@@ -34,24 +30,30 @@ parent.appendChild(alternativeButton);
 
 
 
-//계속해서 refresh  함.. flag 를 만들어줘야할듯
-getElementByXpath('//*[@id="center"]/div[3]/p[1]/a').click();
+//계속해서 refresh  함.. flag 를 만들어줘야할
+//getElementByXpath('//*[@id="center"]/div[3]/p[1]/a').click();
 
+// chrome.runtime.sendMessage({"message": "refresh"});
 
+function Start(){
+  getElementByXpath('//*[@id="center"]/div[3]/p[1]/a').click();
+}
 
 
 
 alternativeButton.firstChild.addEventListener("click", e=>{
-        
-    getElementByXpath('//*[@id="center"]/div[3]/p[1]/a').click();
+  
+  chrome.runtime.sendMessage({"message": "toggle_status_action"});
+  getElementByXpath('//*[@id="center"]/div[3]/p[1]/a').click();
 });
 
 
 
 // content.js
 chrome.runtime.onMessage.addListener((request, sender, sendResponse)=>{
-      if( request.message === "clicked_browser_action" ) {
-        
+      if( request.message === "clicked_browser_action" ) {        
         console.log(document.onmousedown);
+      }else if(request.message === "start_action"){
+        Start();
       }
 });
