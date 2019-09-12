@@ -10,7 +10,6 @@
         "contextMenus",
         "storage",
         "*://*/*"
-        
       ],
     "content_scripts": [
         {
