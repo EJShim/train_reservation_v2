@@ -48,13 +48,17 @@ const buttonElement = getElementByXpath('//*[@id="center"]/div[3]/p');
 const parent = buttonElement.parentNode;
 
 //Make Button
-const alternativeButton = buttonElement.cloneNode(true);
-alternativeButton.firstChild.removeAttribute('href');
-alternativeButton.firstChild.firstChild.setAttribute('src',chrome.extension.getURL('btn_inq_tick_hack.png') )
-alternativeButton.firstChild.firstChild.setAttribute('alt', 'Hack');
-alternativeButton.style.position='fixed';
-alternativeButton.style.zIndex = '10000';
+const alternativeButton = document.createElement('div');
+alternativeButton.innerHTML = "좋아하기";
+alternativeButton.setAttribute('class', 'btn_ejshim');
+
+
 parent.appendChild(alternativeButton);
+
+//add icon
+const image = document.createElement('img');
+image.setAttribute('src', chrome.extension.getURL('favicon.ico'));
+alternativeButton.appendChild(image);
 
 
 
@@ -80,7 +84,7 @@ function Start(){
 }
 
 
-alternativeButton.firstChild.addEventListener("click", e=>{
+alternativeButton.addEventListener("click", e=>{
   
   chrome.runtime.sendMessage({"message": "toggle_status_action"});
   getElementByXpath('//*[@id="center"]/div[3]/p[1]/a').click();

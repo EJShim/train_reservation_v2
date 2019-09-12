@@ -1,0 +1,43 @@
+/* body{
+    background:red !important;
+} */
+
+
+.btn_ejshim{
+    /* position:fixed; */
+    position: relative;
+    background-image: linear-gradient(#367ce6, #246bc5);    
+    text-align:center;    
+    z-index: 100000;
+    width:175px;
+    height:35.7px;
+    -webkit-box-align:center;
+    -webkit-box-pack:center;
+    display:-webkit-box;
+    left : calc(100% - 354px);
+    top: 3px;
+    font-size: 1.2em;
+    
+    
+    color:white;
+    border-style:solid;
+    border-color:#14498a;
+    border-width:1.15px;
+    border-radius: 2px;    
+}
+
+.btn_ejshim:hover{
+    cursor: pointer;
+    background-image: linear-gradient(#e67c36, #c56b24);    
+
+}
+
+.btn_ejshim > img{
+    position: absolute;    
+    left:0%;
+    top:0%;
+    width:25px;
+    height:25px;
+    margin-top : 5.35px;
+    margin-left:10px;
+}
