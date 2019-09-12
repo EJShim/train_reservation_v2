@@ -14,7 +14,7 @@ function getElementsByXPath(xpath, parent = document)
 
 
 
-function checkDOMChange()
+function handleiFrmae()
 {
 
     const iframes = document.getElementsByTagName("iframe");
@@ -26,7 +26,7 @@ function checkDOMChange()
         popupButton.click();        
       }
     }
-    setTimeout( checkDOMChange, 100 );
+    setTimeout( handleiFrmae, 100 );
 }
 
 
@@ -76,7 +76,7 @@ function Start(){
 
 
 
-    checkDOMChange();
+    handleiFrmae();
     reserveButtons[0].parentNode.click();
     chrome.runtime.sendMessage({"message": "notification_action"});
   }

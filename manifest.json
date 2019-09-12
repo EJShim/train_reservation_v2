@@ -9,7 +9,6 @@
         "browsingData",
         "contextMenus",
         "storage",
-        "alarms",
         "*://*/*"
         
       ],
@@ -27,7 +26,9 @@
         "default_icon": "main-icon.png"
     },
     "icons": {
-        "16": "main-icon.png" 
+        "16": "main-icon.png",
+        "48": "main-icon.png", 
+        "128": "main-icon.png"
     },
     "background": {
         "scripts": ["background.js"]
