@@ -38,8 +38,7 @@ function Start(){
     //refresh
     getElementByXpath('//*[@id="center"]/div[3]/p[1]/a').click();
   }else{
-    //Get it hacked!    
-    // chrome.runtime.sendMessage({"message": "toggle_status_action"});
+    //Get it hacked!        
     sessionStorage.setItem("activate", "false");
 
     handleiFrmae();    
@@ -68,7 +67,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse)=>{
   document.addEventListener('keydown', e=>{    
     switch(e.keyCode){
       case 27:
-        sessionStorage.setItem('activate', false);
+        sessionStorage.setItem('activate', false);        
       break;
       default:
       break;

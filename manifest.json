@@ -31,6 +31,8 @@
     },
     "web_accessible_resources": [
         "favicon.ico",
-        "main-icon.png"  
+        "main-icon.png",
+        "tada.mp3",
+        "dundun.mp3"
     ]
   }
