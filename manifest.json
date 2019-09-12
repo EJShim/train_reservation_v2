@@ -5,11 +5,8 @@
     "permissions": [
         "tabs",
         "notifications",
-        "http://www.letskorail.com/ebizprd/EbizPrdTicketPr21111_i1.do",
-        "browsingData",
-        "contextMenus",
-        "storage",
-        "*://*/*"
+        "activeTab",        
+        "http://www.letskorail.com/ebizprd/EbizPrdTicketPr21111_i1.do"
       ],
     "content_scripts": [
         {
