@@ -12,6 +12,13 @@ function getElementsByXPath(xpath, parent = document)
     return results;
 }
 
+// content.js
+chrome.runtime.onMessage.addListener((request, sender, sendResponse)=>{
+  if( request.message === "clicked_browser_action" ) {    
+    sessionStorage.setItem('activate', 'false');    
+  }
+});
+
 function handleiFrmae()
 {
     const iframes = document.getElementsByTagName("iframe");
@@ -28,11 +35,21 @@ function handleiFrmae()
     setTimeout( handleiFrmae, 100 );
 }
 
+function MakeCheckbox(){
+  // value="${uid}" ${isChecked(uid) && 'checked'}
+  return `
+      <label>
+          <input type="checkbox" class="ktx-macro-checkbox" checked>
+          매크로
+      </label>
+  `;
+}
+
 
 
 function Start(){
 
-  reserveButtons = getElementsByXPath("//td/a/img[@alt='예약하기']")    
+  reserveButtons = getElementsByXPath("//td/a/img[@alt='예약하기']")
   
   if(reserveButtons.length === 0){
     //refresh
@@ -46,13 +63,6 @@ function Start(){
     chrome.runtime.sendMessage({"message": "notification_action"});
   }  
 }
-
-// content.js
-chrome.runtime.onMessage.addListener((request, sender, sendResponse)=>{
-  if( request.message === "clicked_browser_action" ) {    
-    sessionStorage.setItem('activate', 'false');    
-  }
-});
 
 
 
@@ -73,6 +83,24 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse)=>{
       break;
     }
   })
+  const resultTable = getElementsByXPath("//tbody/tr[@class='']");
+  resultTable.forEach(rowElement=>{
+
+    const targetElementSpecial = rowElement.querySelector('td:nth-child(5)');
+    const targetElementNormal = rowElement.querySelector('td:nth-child(6)');
+    
+    //add checkbox
+    if(targetElementSpecial.childNodes.length !== 1){
+      targetElementSpecial.insertAdjacentHTML('beforeend', MakeCheckbox());  
+    }
+
+    if(targetElementNormal.childNodes.length !== 1){
+      targetElementNormal.insertAdjacentHTML('beforeend', MakeCheckbox());      
+    }
+    
+    
+  });
+  return;
   
   //Change Title
   document.title = "automated korail"
