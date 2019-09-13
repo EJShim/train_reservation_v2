@@ -1,7 +1,7 @@
 const audio = document.createElement('audio');
 document.body.appendChild(audio);
 // audio.autoplay = true;
-audio.src = chrome.extension.getURL('dundun.mp3');
+audio.src = chrome.extension.getURL('tada.mp3');
 let playCount = 0;
 let alarm = false;
 
@@ -12,7 +12,7 @@ function playAlarm() {
 
   audio.play();
 
-  if(playCount > 60){
+  if(playCount > 3){
     playCount = 0;
     return;
   }

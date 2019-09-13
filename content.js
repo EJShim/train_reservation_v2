@@ -36,22 +36,61 @@ function handleiFrmae()
 }
 
 function MakeCheckbox(){
-  // value="${uid}" ${isChecked(uid) && 'checked'}
-  return `
-      <label>
-          <input type="checkbox" class="ktx-macro-checkbox" checked>
-          매크로
-      </label>
-  `;
+  const label = document.createElement('label');
+  label.setAttribute("class", "checkbox_macro")
+  const input = document.createElement('input')
+  input.setAttribute("type", "checkbox");  
+  label.appendChild(input);
+  label.appendChild(document.createTextNode("매크로")); 
+  // label.appendChild(document.createTextNode("매크로"));
+
+  return label;
+}
+
+
+function Start(e){
+  //Set Active State
+  sessionStorage.setItem('activate', true);
+
+  //test  
+  const activeCheckboxes = []
+  checkboxes.forEach((label, idx)=>{
+    // console.log(label.firstChild.checked, idx)
+
+    if(label.firstChild.checked){
+      activeCheckboxes.push(idx);
+    }
+  });
+
+  sessionStorage.setItem('checkstate', JSON.stringify(activeCheckboxes));
+
+
+  getElementByXpath('//*[@id="center"]/div[3]/p[1]/a').click();
+}
+
+
+function Stop(e){
+
+  if(e !== undefined) e.preventDefault();
+  sessionStorage.setItem('activate', false);
+  sessionStorage.setItem('checkstate', JSON.stringify([]));
+  
+  alert("stopped");
 }
 
 
 
-function Start(){
+function Active(){
 
-  reserveButtons = getElementsByXPath("//td/a/img[@alt='예약하기']")
+  if(JSON.parse(sessionStorage.checkstate).length < 1){
+    alert("원하는 시간을 체크해라");
+    Stop();
+  }
+
+  const available = getElementsByXPath("//label[@class='checkbox_macro']/input[@checked]/../../a/img[@alt='예약하기']");
   
-  if(reserveButtons.length === 0){
+  
+  if(available.length === 0){
     //refresh
     getElementByXpath('//*[@id="center"]/div[3]/p[1]/a').click();
   }else{
@@ -59,11 +98,14 @@ function Start(){
     sessionStorage.setItem("activate", "false");
 
     handleiFrmae();    
-    reserveButtons[0].parentNode.click();
+    available[0].parentNode.click();
     chrome.runtime.sendMessage({"message": "notification_action"});
   }  
 }
 
+
+
+const checkboxes = [];
 
 
 ///Main Code
@@ -77,7 +119,7 @@ function Start(){
   document.addEventListener('keydown', e=>{    
     switch(e.keyCode){
       case 27:
-        sessionStorage.setItem('activate', false);        
+        Stop(e);
       break;
       default:
       break;
@@ -91,16 +133,29 @@ function Start(){
     
     //add checkbox
     if(targetElementSpecial.childNodes.length !== 1){
-      targetElementSpecial.insertAdjacentHTML('beforeend', MakeCheckbox());  
+
+      const checkbox = MakeCheckbox();      
+      targetElementSpecial.appendChild(checkbox);
+      checkboxes.push(checkbox);
     }
 
     if(targetElementNormal.childNodes.length !== 1){
-      targetElementNormal.insertAdjacentHTML('beforeend', MakeCheckbox());      
+      const checkbox = MakeCheckbox();
+      targetElementNormal.appendChild(checkbox);
+      checkboxes.push(checkbox);
     }
-    
-    
   });
-  return;
+
+  // //test checkbox
+  // checkboxes.forEach(checkbox=>{
+  //   checkbox.firstChild.setAttribute("checked", true);
+  // })
+
+  const activeCheckboxIdx = JSON.parse(sessionStorage.checkstate);
+  activeCheckboxIdx.forEach(index=>{    
+    checkboxes[index].firstChild.setAttribute("checked", true);
+  })
+
   
   //Change Title
   document.title = "automated korail"
@@ -119,15 +174,12 @@ function Start(){
   const image = document.createElement('img');
   image.setAttribute('src', chrome.extension.getURL('favicon.ico'));
   alternativeButton.appendChild(image);
-  alternativeButton.addEventListener("click", e=>{
-    sessionStorage.setItem('activate', 'true');    
-    getElementByXpath('//*[@id="center"]/div[3]/p[1]/a').click();
-  });
+  alternativeButton.addEventListener("click", e=>{Start(e)});
   
 
 
   //if activate flag on, start
   if(JSON.parse(sessionStorage.activate)){    
-    Start();
+    Active();
   }
 })();
