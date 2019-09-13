@@ -48,9 +48,8 @@ function MakeCheckbox(){
 }
 
 
-function Start(e){
-  //Set Active State
-  sessionStorage.setItem('activate', true);
+function Start(e){  
+
 
   //test  
   const activeCheckboxes = []
@@ -62,30 +61,29 @@ function Start(e){
     }
   });
 
+  
+  if(activeCheckboxes.length < 1){
+    alert("원하는 시간을 체크하고 돌리세요");
+    return;
+  }
+
   sessionStorage.setItem('checkstate', JSON.stringify(activeCheckboxes));
 
 
+  //Set Active State
+  sessionStorage.setItem('activate', true);
   getElementByXpath('//*[@id="center"]/div[3]/p[1]/a').click();
 }
 
 
-function Stop(e){
-
-  if(e !== undefined) e.preventDefault();
+function Stop(){
   sessionStorage.setItem('activate', false);
   sessionStorage.setItem('checkstate', JSON.stringify([]));
-  
-  alert("stopped");
 }
 
 
 
 function Active(){
-
-  if(JSON.parse(sessionStorage.checkstate).length < 1){
-    alert("원하는 시간을 체크해라");
-    Stop();
-  }
 
   const available = getElementsByXPath("//label[@class='checkbox_macro']/input[@checked]/../../a/img[@alt='예약하기']");
   
@@ -94,12 +92,14 @@ function Active(){
     //refresh
     getElementByXpath('//*[@id="center"]/div[3]/p[1]/a').click();
   }else{
-    //Get it hacked!        
-    sessionStorage.setItem("activate", "false");
+    
 
     handleiFrmae();    
     available[0].parentNode.click();
     chrome.runtime.sendMessage({"message": "notification_action"});
+    //Get it hacked!
+    // sessionStorage.setItem("activate", "false");
+    Stop()
   }  
 }
 
@@ -115,16 +115,10 @@ const checkboxes = [];
     sessionStorage.setItem('activate', false);
   }
 
-  //disable when esc key pressed
-  document.addEventListener('keydown', e=>{    
-    switch(e.keyCode){
-      case 27:
-        Stop(e);
-      break;
-      default:
-      break;
-    }
-  })
+  if(sessionStorage.checkstate == undefined){
+    sessionStorage.setItem('checkstate', JSON.stringify([]));
+  }
+
   const resultTable = getElementsByXPath("//tbody/tr[@class='']");
   resultTable.forEach(rowElement=>{
 
@@ -183,3 +177,25 @@ const checkboxes = [];
     Active();
   }
 })();
+
+// content.js
+chrome.runtime.onMessage.addListener((request, sender, sendResponse)=>{
+  if( request.message === "clicked_browser_action" ) {        
+  }else if(request.message === "start_action"){
+   
+  }else if(request.message === "onUpdated_action"){
+    
+  //disable when esc key pressed
+  document.addEventListener('keydown', e=>{    
+      switch(e.keyCode){
+        case 27:
+          e.preventDefault();
+          Stop();
+          alert("매크로 멈춤");
+        break;
+        default:
+        break;
+      }
+    });
+  }
+});

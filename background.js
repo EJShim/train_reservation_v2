@@ -41,6 +41,14 @@ chrome.runtime.onMessage.addListener( (request, sender, sendResponse) => {
 });
 
 
+chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {          
+  
+  chrome.tabs.sendMessage(tabId, {'message':'onUpdated_action'});
+  if (changeInfo.status == 'complete') {  
+  }
+}); 
+
+
 // Called when the user clicks on the browser action.
 chrome.browserAction.onClicked.addListener((tab)=> {    
   // chrome.tabs.sendMessage(tab.id, {"message": "clicked_browser_action"});
