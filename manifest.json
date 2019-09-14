@@ -13,7 +13,7 @@
                 "https://etk.srail.co.kr/hpg/hra/01/selectScheduleList.do?pageId=TK0101010000"
             ],
             "css":["srt.css"],
-            "js": ["jquery-3.4.1.min.js","utils.js","srt.js"],
+            "js": ["utils.js","srt.js"],
             "all_frames": true
         },
         {
@@ -21,7 +21,7 @@
             "http://www.letskorail.com/ebizprd/EbizPrdTicketPr21111_i1.do"
             ],
             "css":["ktx.css"],
-            "js": ["jquery-3.4.1.min.js", "utils.js", "ktx.js"],
+            "js": ["utils.js", "ktx.js"],
             "all_frames": true
         }        
     ],
