@@ -18,7 +18,7 @@ function MakeCheckbox(){
     const input = document.createElement('input')
     input.setAttribute("type", "checkbox");  
     label.appendChild(input);
-    label.appendChild(document.createTextNode("mcr"));     
+    label.appendChild(document.createTextNode("매크로"));     
 
     return label;
 }
