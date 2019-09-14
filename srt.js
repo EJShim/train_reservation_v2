@@ -1,7 +1,7 @@
 const g_checkboxes = [];
 
 
-function onClickLike(e){    
+function onClickLike(e){
 
     //test  
     const activeCheckboxes = []
@@ -65,6 +65,15 @@ document.addEventListener('keydown', e=>{
 
 ///Main Code
 (() => {
+
+    //set title
+    //Change Title
+    document.title = "automated srt"
+    var link = document.querySelector("link[rel*='icon']") || document.createElement('link');
+    link.type = 'image/x-icon';
+    link.rel = 'shortcut icon';
+    link.href = chrome.extension.getURL('favicon.ico');
+    document.getElementsByTagName('head')[0].appendChild(link);
     
     //Session  초기화
     if(sessionStorage.activate === undefined){
