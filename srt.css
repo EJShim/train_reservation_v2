@@ -1,0 +1,8 @@
+
+.ej_btn{
+    user-select: none;
+}
+
+.ej_btn:hover{
+    background-color:red;
+}
