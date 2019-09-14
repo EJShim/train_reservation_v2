@@ -25,8 +25,21 @@ function onClickLike(e){
 }
 
 function Active(){
-    const refreshButton = getElementByXpath('//*[@id="search_top_tag"]/input');
-    refreshButton.click();
+    //check if there is available
+    
+    const availables = getElementsByXPath("//label[@class='checkbox_macro']/input[@checked]/../../a/span[text()='예약하기']/..");
+    // 1595729996
+
+    if(availables.length < 1){
+        const refreshButton = getElementByXpath('//*[@id="search_top_tag"]/input');
+        refreshButton.click();
+    }else{
+        availables[0].click();
+        chrome.runtime.sendMessage({"message": "notification_action"});
+        Stop();
+    }
+
+    
 
 }
 
@@ -52,6 +65,7 @@ document.addEventListener('keydown', e=>{
 
 ///Main Code
 (() => {
+    
     //Session  초기화
     if(sessionStorage.activate === undefined){
         sessionStorage.setItem('activate', false);
@@ -103,10 +117,7 @@ document.addEventListener('keydown', e=>{
     const activeCheckboxIdx = JSON.parse(sessionStorage.checkstate);
     activeCheckboxIdx.forEach(index=>{    
         g_checkboxes[index].firstChild.setAttribute("checked", true);
-    })
-
-
-
+    });
     //active?
     //if activate flag on, start
     if(JSON.parse(sessionStorage.activate)){    
